@@ -93,6 +93,31 @@
 
 ---
 
+## Google Sheets 設定方法
+
+このプロジェクトではGoogle Sheets APIを使用します。以下の手順に従って設定を行ってください。
+
+1. **Google CloudでAPIを有効化**
+   - [Google Cloud Console](https://console.cloud.google.com/)にアクセスします。
+   - プロジェクトを作成または選択し、`Google Sheets API`を有効化してください。
+
+2. **サービスアカウントの作成**
+   - ナビゲーションメニューから **IAMと管理** > **サービスアカウント** に移動します。
+   - 新しいサービスアカウントを作成し、JSON形式でキーをダウンロードしてください。
+   - ダウンロードした`credentials.json`をプロジェクトフォルダに配置します。
+
+3. **スプレッドシートの共有**
+   - 使用するスプレッドシートを開きます。
+   - サービスアカウントのメールアドレスを編集者として共有してください。
+
+4. **環境変数の設定**
+   - プロジェクトのルートに`.env`ファイルを作成し、以下を記述します：
+     ```
+     GOOGLE_APPLICATION_CREDENTIALS=credentials.json
+     SPREADSHEET_ID=your_spreadsheet_id
+     ```
+
+
 ## 改善のポイント
 
 - **コードの分割**: 機能ごとにクラスや関数を分けて整理。
