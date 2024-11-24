@@ -1,12 +1,24 @@
 import requests
 from bs4 import BeautifulSoup
-import config
+import schedule
+import time
+import os
+from dotenv import load_dotenv
 
-LINE_ACCESS_TOKEN = config.LINE_ACCESS_TOKEN
-YOUR_USER_ID = config.YOUR_USER_ID
+# .env ファイルを読み込む
+load_dotenv()
+
+# 環境変数から値を取得
+LINE_ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN")
+YOUR_USER_ID = os.getenv("YOUR_USER_ID")
+
+# 確認用（実際の運用時は削除）
+print(f"LINE_ACCESS_TOKEN: {LINE_ACCESS_TOKEN}")
+print(f"YOUR_USER_ID: {YOUR_USER_ID}")
+
 
 def send_line_message(message):
-    """LINEにメッセージを送る"""
+    """LINEにメッセージを送信する"""
     url = "https://api.line.me/v2/bot/message/push"
     headers = {
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}",
@@ -42,8 +54,19 @@ def fetch_weather_data(url):
         print("天気情報を取得できませんでした。HTML構造を確認してください。")
         return None
 
-# メイン処理
-url = "https://tenki.jp/forecast/3/11/4020/8220/"
-weather_message = fetch_weather_data(url)
-if weather_message:
-    send_line_message(weather_message)
+def job():
+    """定期実行タスク"""
+    url = "https://tenki.jp/forecast/3/11/4020/8220/"
+    weather_message = fetch_weather_data(url)
+    if weather_message:
+        send_line_message(weather_message)
+
+# スケジュール設定
+schedule.every().day.at("13:39").do(job)  # 毎朝8時に実行
+
+print("スケジュールされたタスクを実行中...")
+
+# 定期実行のループ
+while True:
+    schedule.run_pending()
+    time.sleep(1)
