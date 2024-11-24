@@ -34,7 +34,7 @@
 
 ## 使用技術
 
-- **プログラミング言語**: Python 3.9+
+- **プログラミング言語**: Python 3.10.9
 - **主要ライブラリ**:
   - `requests`: APIリクエスト
   - `beautifulsoup4`: HTML解析
