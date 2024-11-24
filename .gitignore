@@ -1,2 +1,4 @@
 # 環境ファイル
 .env
+.DS_Store
+__pycache__
